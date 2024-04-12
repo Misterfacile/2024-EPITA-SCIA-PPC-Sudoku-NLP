@@ -15,9 +15,18 @@ public class DancingLinkSolverOptimizedCreationForMatrix : ISudokuSolver
     /// <returns>
     /// The solved Sudoku grid.
     /// </returns>
+    private int[,] matrix;
     public SudokuGrid Solve(SudokuGrid s)
     {
-        //launch the solver
+        BuildMatrix(s);
+        var solutions = new Dlx()
+            .Solve(matrix);;
+        return SolutionToGrid(solutions.First(), s);
+    }
+
+    private void BuildMatrix(SudokuGrid s)
+    {
+                //launch the solver
         //each of 9×9 cells is assigned one of 9 numbers,
         var rowNumber = 9;
         var columnNumber = 9;
@@ -70,9 +79,7 @@ public class DancingLinkSolverOptimizedCreationForMatrix : ISudokuSolver
                 }
             }
         }
-        var solutions = new Dlx()
-            .Solve(matrix);;
-        return SolutionToGrid(solutions.First(), s);
+        
     }
     private SudokuGrid SolutionToGrid(Solution dlxSolution, SudokuGrid s)
     {
@@ -90,5 +97,4 @@ public class DancingLinkSolverOptimizedCreationForMatrix : ISudokuSolver
 
         return solution;
     }
-    private int[,] matrix;
 }
